@@ -43,7 +43,7 @@ Story.init(
     },
     {
       sequelize,
-      modelName: "Story",
+      modelName: "story",
     }
   );
 

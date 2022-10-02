@@ -1,4 +1,4 @@
-var { ddb, docClient } = require("../dynamodb/PartStatTable");
+var { ddb, docClient } = require("../dynamodbConfig");
 
 exports.addStoryStat = async(req,res)=>{
     var params = {

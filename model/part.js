@@ -36,7 +36,7 @@ Part.init(
     },
     {
       sequelize,
-      modelName: "Part",
+      modelName: "part",
     }
   );
   
