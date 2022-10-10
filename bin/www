@@ -8,6 +8,7 @@ dotenv.config();
 var app = require("../app");
 var debug = require("debug")("thestorynest-backend:server");
 var http = require("http");
+const { Server } = require("socket.io");
 
 /**
  * Get port from environment and store in Express.
@@ -21,6 +22,49 @@ app.set("port", port);
  */
 
 var server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: process.env.ORIGIN,
+    methods: ['GET','POST']
+  },
+});
+
+let users = [];
+
+io.on("connection", (socket) => {
+  const user = {socket};
+  socket.on('data', (data) => {
+    //console.log('user id '+data.id)
+      user.id = data.id;
+      let u = users.filter((user)=>{
+        return user.id === data.id;
+      })
+      if(u.length > 0){
+
+      }
+      users.push(user);
+  })
+
+  socket.on('like', (userId, story) => {
+    let u = users.filter((user)=>{
+      return user.id === story.author;
+    })
+    if(u.length > 0){
+      
+      u[0].socket.emit('notification', {
+      message : `${userId} upvoted your story ${story.title}`
+    })
+    console.log('message sent successfully');
+    }
+    
+  })
+
+  socket.on("disconnect", () => {
+    let index = users.findIndex(u => u.id === user.id);
+    users.splice(index,1);
+  });
+});
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -88,4 +132,4 @@ function onListening() {
   debug("Listening on " + bind);
 }
 
-// module.exports = { io, sendMessage }
+//module.exports = { server }

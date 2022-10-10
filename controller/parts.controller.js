@@ -42,26 +42,6 @@ exports.findById = async (req, res) => {
   }
 };
 
-// exports.findAllWithUserId = async (req, res) => {
-//   try {
-//     let details = await Part.findAll({
-//       where: { author: req.params.user },
-//       include: [{ model: Part, as: "parts" }],
-//     });
-//     res.send({
-//       statusCode: 200,
-//       parts: details,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.send({
-//       statusCode: 500,
-//       message: "Internal Server Error",
-//       error: error
-//     });
-//   }
-// };
-
 exports.create = async (req, res) => {
   try {
     let details = await Part.create(req.body);
