@@ -37,12 +37,6 @@ io.on("connection", (socket) => {
   socket.on('data', (data) => {
     //console.log('user id '+data.id)
       user.id = data.id;
-      let u = users.filter((user)=>{
-        return user.id === data.id;
-      })
-      if(u.length > 0){
-
-      }
       users.push(user);
   })
 
@@ -50,12 +44,13 @@ io.on("connection", (socket) => {
     let u = users.filter((user)=>{
       return user.id === story.author;
     })
-    if(u.length > 0){
-      
+    if(u.length > 0){ 
       u[0].socket.emit('notification', {
-      message : `${userId} upvoted your story ${story.title}`
+      message : `'${userId}' upvoted your story '${story.title}'`
     })
-    console.log('message sent successfully');
+      console.log('message sent successfully');
+    }else{
+      console.log('user not connected to send the notification');
     }
     
   })
